@@ -274,7 +274,8 @@ function setCanvasSize(){
   var ch = windowHeight - (pxSpacing * 2);
   var cw = windowWidth - (pxSpacing * 2);
   if(windowHeight/windowWidth <= (3/2) )var cw = round(ch * (2/3) );
-  corrected_canvas_resize(cw, ch);
+  resizeCanvas(cw, ch);
+  //corrected_canvas_resize(cw, ch);
   // corrected_canvas_resize(300, 30);
 }
 
