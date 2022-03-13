@@ -3,7 +3,7 @@ function preload(){
   samplePhoto = loadImage("samplePhoto.png")
 }
 function setup() {
-  createCanvas(1,1); pixelDensity(1)
+  createCanvas(1,1);
   canvas.setAttribute("onmouseup", "myMouseReleased()")
   canvas.setAttribute("ontouchend", "myMouseReleased()")
   pxSpacing = 10;
