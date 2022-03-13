@@ -30,6 +30,7 @@ function mousePressed(){
   pressMouseY = mouseY;
 }
 function mouseReleased(){
+  console.log("Mouse released")
   if(current_screen == "decode")click_update_decode();
   if(current_screen == "decoding")click_update_decoding();
   if(!userClickedAButton){mouseX = 0; mouseY = 0;}
@@ -94,6 +95,7 @@ function draw_decoding(){
       text("Decoding complete.\nHere's the file that was decoded:\n\nMP3 File (Music)\n\nOpen this file?\n\n",
       width/2, height/2, (width-(pxSpacing*2)), height/3 )
       pop();
+      draw_button("open_decoded_file");
       
       var ycol_a = lerp(255, 0, fractionComplete)
       dp.overlayGraphic.background( 255, 255, 0, ycol_a )
@@ -106,6 +108,21 @@ function draw_decoding(){
 function click_update_decoding(){
   if(userClickedOn(buttons.start_over)){
     setTimeout(()=>{mouseX = 0; mouseY = 0;current_screen = "front"}, 100)
+  }
+  if(userClickedOn(buttons.open_decoded_file)){
+    setTimeout(()=>{
+      mouseX = 0;
+      mouseY = 0;
+      current_screen = "music"
+      musicElement = document.createElement('audio')
+      musicSource = document.createElement('source')
+      musicSource.src = "data:audio/mp3;base64," + songData
+      musicElement.appendChild(musicSource);
+      musicElement.setAttribute('controls', "controls")
+      document.body.appendChild(musicElement);
+      console.log("appended to body")
+      canvas.hidden = true;
+    }, 100)
   }
 }
 
@@ -135,7 +152,7 @@ function decodeNextChunk(){
 }
 
 function draw_details(){
-  logow = (width * (2/5) )
+  logow = (width * (3/5) )
   // if(width< (width/4) )logow = width;
   logoh = logow * (logoImage.height/logoImage.width)
   image(logoImage, 0, 0, logow, logoh);
@@ -270,6 +287,14 @@ function setButtons(){
       "y": height-pxSpacing-(height*(2/14))-(pxSpacing*3) ,
       'w':width * (1/2),
       'h':height * (1/14)
+    },
+    "open_decoded_file":{
+      'text':"Open",
+      'style':"box",
+      "x": sc.x - (width*(1/2)/2),
+      "y": height * (1/3) + (3/4 * 1/3 * height) ,
+      "w": (width/2),
+      "h": height * (1/14)
     }
   }
 }
