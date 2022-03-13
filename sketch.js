@@ -84,7 +84,6 @@ function draw_decoding(){
       dp.overlayGraphic.clear();
       dp.overlayGraphic.background(0,190);
       var fractionComplete = (frameCount - time_of_circle_completion)/30
-      
       push();
       stroke(0);
       rectMode(CENTER,CENTER)
@@ -136,8 +135,8 @@ function decodeNextChunk(){
 }
 
 function draw_details(){
-  logow = 200
-  if(width<200)logow = width;
+  logow = (width * (2/5) )
+  // if(width< (width/4) )logow = width;
   logoh = logow * (logoImage.height/logoImage.width)
   image(logoImage, 0, 0, logow, logoh);
   
@@ -248,7 +247,8 @@ function setCanvasSize(){
   var ch = windowHeight - (pxSpacing * 2);
   var cw = windowWidth - (pxSpacing * 2);
   if(windowHeight/windowWidth <= (3/2) )var cw = round(ch * (2/3) );
-  resizeCanvas(cw, ch);
+  corrected_canvas_resize(cw, ch);
+  // corrected_canvas_resize(300, 30);
 }
 
 function setButtons(){
@@ -328,4 +328,12 @@ function checkSpeed(){
   //Try something out here
   var endTime = performance.now();
   console.log("Time: " + (endTime - startTime) + " milliseconds")
+}
+
+function corrected_canvas_resize(w, h){
+  const ratio = Math.ceil(window.devicePixelRatio);
+  resizeCanvas(w * ratio, h * ratio);
+  canvas.style.width = `${w}px`
+  canvas.style.height = `${h}px`
+  canvas.getContext('2d').setTransform(ratio, 0, 0, ratio, 0, 0);
 }
