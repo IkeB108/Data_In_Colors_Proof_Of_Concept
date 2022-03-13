@@ -4,6 +4,8 @@ function preload(){
 }
 function setup() {
   createCanvas(1,1); pixelDensity(1)
+  canvas.setAttribute("onmouseup", "myMouseReleased()")
+  canvas.setAttribute("ontouchend", "myMouseReleased()")
   pxSpacing = 10;
   textSize(30)
   setCanvasSize();
@@ -29,8 +31,7 @@ function mousePressed(){
   pressMouseX = mouseX;
   pressMouseY = mouseY;
 }
-function mouseReleased(){
-  console.log("Mouse released")
+function myMouseReleased(){
   if(current_screen == "decode")click_update_decode();
   if(current_screen == "decoding")click_update_decoding();
   if(!userClickedAButton){mouseX = 0; mouseY = 0;}
