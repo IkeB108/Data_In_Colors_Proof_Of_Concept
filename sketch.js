@@ -18,6 +18,7 @@ function setup() {
   //How many chunks should be decoded per frame when decoding?
   //Negative numbers represent frames per chunk; ex. -3 is three frames per chunk
   setButtons();
+  framesSinceLastClick = 5;
 }
 
 function draw() {
@@ -26,16 +27,24 @@ function draw() {
   draw_details();
   if(current_screen == "decode")draw_decode();
   if(current_screen == "decoding")draw_decoding();
+  framesSinceLastClick ++;
 }
 function mousePressed(){
   pressMouseX = mouseX;
   pressMouseY = mouseY;
 }
 function myMouseReleased(){
-  if(current_screen == "decode")click_update_decode();
-  if(current_screen == "decoding")click_update_decoding();
-  if(!userClickedAButton){mouseX = 0; mouseY = 0;}
-  userClickedAButton = false;
+  //This function keeps getting called twice on mobile devices,
+  // even when I don't use p5's default mouseReleased() function.
+  // I don't know why, but my solution is to prevent another click
+  // for 5 frames after the first one.
+  if(framesSinceLastClick >= 5){
+    if(current_screen == "decode")click_update_decode();
+    if(current_screen == "decoding")click_update_decoding();
+    if(!userClickedAButton){mouseX = 0; mouseY = 0;}
+    userClickedAButton = false;
+  }
+  framesSinceLastClick = 0;
 }
 function draw_decode(){
   draw_button("start_over")
